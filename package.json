@@ -19,9 +19,8 @@
     "lib"
   ],
   "scripts": {
-    "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs --dest _site",
-    "docs:lint": "eslint -c docs/.eslintrc.json --quiet docs/.vuepress",
+    "dev": "vuepress dev docs",
+    "build": "vuepress build docs --dest _site",
     "lint": "eslint --quiet .",
     "release": "bump --prompt --tag --all --push",
     "test": "yarn lint"
