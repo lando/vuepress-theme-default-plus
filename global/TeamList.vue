@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import TeamMember from '../TeamMember.vue';
+import TeamMember from '../components/TeamMember.vue';
 
 export default {
   name: 'TeamList',
@@ -29,7 +29,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../../styles/main.scss';
+@import '../styles/main.scss';
 
 .current-team {
   .current-team-wrapper {

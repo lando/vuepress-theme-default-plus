@@ -8,7 +8,7 @@ module.exports = {
     ['link', {rel: 'icon', href: '/favicon.ico'}],
     ['link', {rel: 'stylesheet', href: '//fonts.googleapis.com/css?family=Poppins:700|Source+Sans+Pro&display=swap'}],
   ],
-  theme: path.resolve(__dirname, '../../lib'),
+  theme: path.resolve(__dirname, '../..'),
   themeConfig: {
     logo: '/images/logo-pink-small.png',
     repo: 'lando/vuepress-docs-theme',

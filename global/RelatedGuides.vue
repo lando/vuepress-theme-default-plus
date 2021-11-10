@@ -43,7 +43,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../../styles/main.scss';
+@import '../styles/main.scss';
 
 .related-guides {
   margin-top: 2rem;

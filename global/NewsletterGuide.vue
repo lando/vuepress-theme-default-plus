@@ -2,15 +2,15 @@
   <div class="newsletter post-subscribe">
     <div class="newsletter__wrap">
       <div class="newsletter__title">
-        Want more helpful onboarding content?
+        Want new guide content?
       </div>
       <div class="newsletter__content">
-        Sign up and we'll send you a new and helpful guide every week!
+        Sign up and we'll send you the latest and greatest!
       </div>
       <Subscribe
-        success-message="Soon you will be the master!"
+        success-message="More awesome guide material will be heading your way!"
         :custom-styles="stylez"
-        :groups="groups"
+        :interests="interests"
         title=""
       />
     </div>
@@ -18,24 +18,30 @@
 </template>
 
 <script>
-import Subscribe from '../Subscribe.vue';
+import Subscribe from '../components/Subscribe.vue';
 
 export default {
-  name: 'NewsletterLearn',
+  name: 'NewsletterGuide',
   components: {Subscribe}, // eslint-disable-line
   data() {
     return {
       stylez: {
         width: '100%',
       },
-      groups: ['NEWSLETTER', 'NEWUSER'],
+      interests: [{
+        id: 1,
+        group: 37781,
+        checked: true,
+        hidden: true,
+        label: 'Updates',
+      }],
     };
   },
 };
 </script>
 
 <style lang="scss">
-@import '../../styles/main.scss';
+@import '../styles/main.scss';
 
 .newsletter {
   text-align: center;
@@ -101,11 +107,6 @@ export default {
       height: auto;
     }
   }
-  .subscribe-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 10px;
-  }
   .subscribe-input {
     background-color: #fff;
     font-size: inherit;
@@ -118,18 +119,13 @@ export default {
     outline: none;
     height: auto;
     margin: 1em 0;
-    &:focus {
-      outline: none;
-      border: 0;
-      border-color: transparent;
-    }
+  }
+  .newsletter__wrap {
+    background-color: #f8f8f8;
   }
   @media (max-width: $MQMobile) {
-    .subscribe-form {
+    .post-subscribe .subscribe-form {
       display: block;
-    }
-    .newsletter__wrap {
-      background-color: #f8f8f8;
     }
   }
 }

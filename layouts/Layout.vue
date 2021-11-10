@@ -17,10 +17,9 @@ import {useThemeData} from '@vuepress/plugin-theme-data/lib/client';
 
 // Get theme data
 const themeData = useThemeData();
-console.log(themeData);
+console.log(themeData.value);
 // Get the config from themedata
-const {showCarbonAds = true} = themeData.value;
-const {showSponsors = true} = themeData.value;
+const {showCarbonAds, showSponsors} = themeData.value;
 
 </script>
 
