@@ -1,5 +1,8 @@
 <template>
-  <div id="special_sponsors">
+  <div
+    v-if="hasSponsors"
+    id="special_sponsors"
+  >
     <h4>special sponsors</h4>
     <div class="sponsor-wrapper">
       <div
@@ -30,33 +33,28 @@
 
 
 <script>
-import {filter} from 'lodash';
+import {computed} from 'vue';
 import {useThemeData} from '@vuepress/plugin-theme-data/lib/client';
 
 export default {
   setup() {
     // Get theme data
     const themeData = useThemeData();
-    // Get the config from themedata
-    const {showSponsors = true} = themeData.value;
-    const {sponsors = []} = themeData.value;
+    // Get relevant config from themedata
+    const {showSponsors, sponsors} = themeData.value;
 
-    return {
-      showSponsors,
-      sponsors,
-    };
-  },
-  data() {
-    return {
-      sponsorList: [],
-    };
-  },
-  mounted() {
-    this.sponsorList = !Array.isArray(this.showSponsors)
-      ? this.sponsors
-      : filter(this.sponsors, sponsor => {
-          return this.showSponsors.includes(sponsor.id);
-      });
+    // Compute sponsor list
+    const sponsorList = computed(() => {
+      // return entire list if true
+      if (showSponsors === true) return sponsors;
+      // otherwise try to filter
+      return sponsors.filter(sponsor => showSponsors.includes(sponsor.id));
+    });
+
+    // Compute whether we end up with any sponsors or not
+    const hasSponsors = computed(() => sponsorList.value.length > 0);
+
+    return {hasSponsors, showSponsors, sponsorList};
   },
 };
 </script>

@@ -22,7 +22,7 @@ The `showCarbonAds` will display the [Carbon Ads component](https://github.com/l
 
 ### showSponsors / sponsors Options
 
-The `showSponsors` will display a list of sponsors from a YAML file in your theme.  The value can be either `boolean` or a `string[]`.  If set to `true`, it will display all sponsors from your YAML file. 
+The `showSponsors` will display a list of sponsors from a YAML file in your theme.  The value can be either `boolean` or a `string[]`.  If set to `true`, it will display all sponsors from your YAML file.
 
 If set to a `string[]`, it will match the `id` key in your yaml file and only display that sponsor.  The YAML file needs be set to the option `sponsor` for this to work properly.
 

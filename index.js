@@ -71,6 +71,11 @@ module.exports = (options, app) => {
     name: '@lando/vuepress-docs-theme',
     extends: '@vuepress/theme-default',
     layouts: path.resolve(__dirname, 'layouts'),
+    alias: {
+      'PageMeta.vue': path.resolve(__dirname, 'components', 'CustomPageMeta.vue'),
+      'PageMeta': path.resolve(__dirname, 'components', 'CustomPageMeta.vue'),
+    },
+    clientAppEnhanceFiles: path.resolve(__dirname, 'clientAppEnhance.js'),
     plugins,
   };
 };

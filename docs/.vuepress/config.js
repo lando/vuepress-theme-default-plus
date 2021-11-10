@@ -1,4 +1,6 @@
+const fs = require('fs');
 const {path} = require('@vuepress/utils');
+const yaml = require('js-yaml');
 
 module.exports = {
   lang: 'en-US',
@@ -18,6 +20,8 @@ module.exports = {
     logo: '/images/logo-pink-small.png',
     repo: 'lando/vuepress-docs-theme',
     showSearch: true,
+    showSponsors: true,
+    sponsors: yaml.load(fs.readFileSync(path.resolve(__dirname, '..', '..', 'sponsors.yml'), 'utf8')),
     // sidebar: [],
   },
 };
