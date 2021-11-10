@@ -7,22 +7,34 @@ module.exports = (options, app) => {
     // modifies header/footer links, external links in markdown files
     // and search URLs
     // baseUrl: https://docs.lando.dev
+
+    // Creates a contributors page and adds it to the sidebar
+    // @NOTE: only works with github repos
+    // @NOTE: you need to set docRepo or repo and also contributors
+    contributors: true,
+    contributorsText: 'Written by',
+    contributorsPage: true,
+
+    // Last updated
+    lastUpdated: true,
+    lastUpdatedText: 'Last edit',
+
     // Shows the CarbonAds in the top sidebar
     showCarbonAds: true,
-    // Shows the special sponsors on the right
-    // Can be true|false|or a list of sponsors to show
+
+    // Shows the special sponsors on the right, see sponsors below
+    // Can be true|false|or a list of sponsor ids to show
     showSponsors: false,
+    sponsors: [],
+
     // @TODO: this requires a valid repo be set and that its a github repo
-    showOtherVersions: true,
-    showContributors: true,
-    showGeneratedFrom: true,
     showSearch: false,
     searchSettings: {
       apiKey: '15e332850128e9ec96929f44c62f6c88',
       indexName: 'lando',
     },
-    // Metadata for our sponsors
-    sponsors: [],
+
+
   };
 
   // Merge together

@@ -10,14 +10,14 @@ module.exports = {
   ],
   theme: path.resolve(__dirname, '../..'),
   themeConfig: {
-    logo: '/images/logo-pink-small.png',
-    repo: 'lando/vuepress-docs-theme',
     docsDir: 'docs',
     docsBranch: 'main',
     navbar: [
       {text: 'Getting Started', link: 'https://docs.lando.dev/basics/'},
     ],
+    logo: '/images/logo-pink-small.png',
+    repo: 'lando/vuepress-docs-theme',
     showSearch: true,
-    sidebar: [],
+    // sidebar: [],
   },
 };
