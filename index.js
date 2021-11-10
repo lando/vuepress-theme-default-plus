@@ -16,6 +16,11 @@ module.exports = (options, app) => {
     showOtherVersions: true,
     showContributors: true,
     showGeneratedFrom: true,
+    showSearch: false,
+    searchSettings: {
+      apiKey: '15e332850128e9ec96929f44c62f6c88',
+      indexName: 'lando',
+    },
     // Metadata for our sponsors
     sponsors: [],
   };
@@ -47,15 +52,8 @@ module.exports = (options, app) => {
     ],
   ];
 
-/*
--      [
-  -        '@vuepress/docsearch',
-  -        {
-  -          apiKey: '15e332850128e9ec96929f44c62f6c88',
-  -          indexName: 'lando',
-  -        },
-  -      ],
-*/
+  // Add in search if applicable
+  if (options.showSearch) plugins.push(['@vuepress/docsearch', options.searchSettings]);
 
   return {
     name: '@lando/vuepress-docs-theme',

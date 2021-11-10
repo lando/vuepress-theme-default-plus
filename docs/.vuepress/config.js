@@ -17,6 +17,7 @@ module.exports = {
     navbar: [
       {text: 'Getting Started', link: 'https://docs.lando.dev/basics/'},
     ],
+    showSearch: true,
     sidebar: [],
   },
 };

@@ -9,15 +9,15 @@
   "homepage": "https://github.com/lando/vuepress-theme-lando-docs",
   "keywords": [
     "lando",
-    "vuepress"
+    "vuepress",
+    "vuepress2",
+    "vuepress2-theme",
+    "vuepress2-plugin"
   ],
   "engines": {
     "node": ">=14.0.0"
   },
-  "main": "lib/index.js",
-  "files": [
-    "lib"
-  ],
+  "main": "index.js",
   "scripts": {
     "dev": "vuepress dev docs",
     "build": "vuepress build docs --dest _site",
