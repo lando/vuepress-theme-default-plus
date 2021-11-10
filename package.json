@@ -21,7 +21,7 @@
   "scripts": {
     "dev": "vuepress dev docs",
     "build": "vuepress build docs --dest _site",
-    "lint": "eslint --quiet .",
+    "lint": "eslint . --ext .js,.vue",
     "release": "bump --prompt --tag --all --push",
     "test": "yarn lint"
   },

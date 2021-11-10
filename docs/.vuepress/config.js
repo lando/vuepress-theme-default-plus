@@ -14,9 +14,9 @@ module.exports = {
     repo: 'lando/vuepress-docs-theme',
     docsDir: 'docs',
     docsBranch: 'main',
-    showSponsors: false,
     navbar: [
       {text: 'Getting Started', link: 'https://docs.lando.dev/basics/'},
     ],
+    sidebar: [],
   },
 };

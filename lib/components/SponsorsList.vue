@@ -2,30 +2,38 @@
   <div id="special_sponsors">
     <h4>special sponsors</h4>
     <div class="sponsor-wrapper">
-      <div class="special-sponsor-block" v-for="(sponsor, index) in sponsorList" :key="index">
-        <a :href="sponsor.url" target="_blank">
-          <div class="special-sponsor-image"><img :src="sponsor.logo" :alt="sponsor.name"></div>
+      <div
+        v-for="(sponsor, index) in sponsorList"
+        :key="index"
+        class="special-sponsor-block"
+      >
+        <a
+          :href="sponsor.url"
+          target="_blank"
+        >
+          <div class="special-sponsor-image"><img
+            :src="sponsor.logo"
+            :alt="sponsor.name"
+          ></div>
         </a>
       </div>
     </div>
 
     <div class="special-sponsor-footer">
-      <a href="https://lando.dev/sponsor" target="_blank">become a sponsor</a>
+      <a
+        href="https://lando.dev/sponsor"
+        target="_blank"
+      >become a sponsor</a>
     </div>
   </div>
 </template>
 
 
 <script>
-import { filter } from 'lodash';
-import { useThemeData } from '@vuepress/plugin-theme-data/lib/client';
+import {filter} from 'lodash';
+import {useThemeData} from '@vuepress/plugin-theme-data/lib/client';
 
 export default {
-  data() {
-    return {
-      sponsorList: [],
-    };
-  },
   setup() {
     // Get theme data
     const themeData = useThemeData();
@@ -35,11 +43,16 @@ export default {
 
     return {
       showSponsors,
-      sponsors
-    }
+      sponsors,
+    };
+  },
+  data() {
+    return {
+      sponsorList: [],
+    };
   },
   mounted() {
-    this.sponsorList = !Array.isArray(this.showSponsors) 
+    this.sponsorList = !Array.isArray(this.showSponsors)
       ? this.sponsors
       : filter(this.sponsors, sponsor => {
           return this.showSponsors.includes(sponsor.id);

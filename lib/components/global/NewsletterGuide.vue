@@ -1,11 +1,15 @@
 <template>
   <div class="newsletter post-subscribe">
     <div class="newsletter__wrap">
-      <div class="newsletter__title">Want new guide content?</div>
-      <div class="newsletter__content">Sign up and we'll send you the latest and greatest!</div>
+      <div class="newsletter__title">
+        Want new guide content?
+      </div>
+      <div class="newsletter__content">
+        Sign up and we'll send you the latest and greatest!
+      </div>
       <Subscribe
-        successMessage="More awesome guide material will be heading your way!"
-        :customStyles="stylez"
+        success-message="More awesome guide material will be heading your way!"
+        :custom-styles="stylez"
         :interests="interests"
         title=""
       />
@@ -17,7 +21,7 @@
 import Subscribe from '../Subscribe.vue';
 
 export default {
-  name: 'Newsletter',
+  name: 'NewsletterGuide',
   components: {Subscribe}, // eslint-disable-line
   data() {
     return {
