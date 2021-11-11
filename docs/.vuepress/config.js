@@ -22,6 +22,24 @@ module.exports = {
     showSearch: true,
     showSponsors: true,
     sponsors: yaml.load(fs.readFileSync(path.resolve(__dirname, '..', '..', 'sponsors.yml'), 'utf8')),
-    // sidebar: [],
+    sidebar: [
+      {text: 'Overview', link: '/index.md'},
+      '/installation.md',
+      '/getting-started.md',
+      {
+        text: 'Foo',
+        link: '/foo/',
+        children: [
+          // SidebarItem
+          {
+            text: 'github',
+            link: 'https://github.com',
+            children: [],
+          },
+          // string - page file path
+          '/foo/bar.md',
+        ],
+      },
+    ],
   },
 };

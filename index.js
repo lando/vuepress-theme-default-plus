@@ -15,6 +15,9 @@ module.exports = (options, app) => {
     contributorsText: 'Written by',
     contributorsPage: true,
 
+    // Dark mode
+    darkMode: true,
+
     // Last updated
     lastUpdated: true,
     lastUpdatedText: 'Last edit',

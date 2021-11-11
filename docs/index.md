@@ -4,7 +4,7 @@
 
 Add the theme name to your [theme key](https://v2.vuepress.vuejs.org/guide/theme.html#community-theme) in your VuePress 2 config.js:
 
-```
+```js
 module.exports = {
   ...
   theme: '@lando/vuepress-theme-lando-docs',

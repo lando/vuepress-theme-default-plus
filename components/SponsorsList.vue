@@ -80,8 +80,9 @@ export default {
 }
 @media (max-width: 1300px) {
   #special_sponsors {
+    padding-top: var(--navbar-height);
+    padding-left: var(--sidebar-width);
     position: initial;
-    padding: 1em;
     right: initial;
     top: initial;
     width: initial;
