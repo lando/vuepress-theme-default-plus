@@ -25,9 +25,9 @@
         v-if="contributors && contributors.length"
         class="meta-item contributors"
       >
-        <div class="meta-item-label">
+        <span class="meta-item-label">
           {{ themeLocale.contributorsText }}
-        </div>
+        </span>
         <span class="meta-item-info">
           <span
             v-for="(contributor, index) in contributors"
@@ -122,11 +122,6 @@ const useContributors = () => {
       contributor.alt = `Picture of ${contributor.name}`;
       contributor.title = `${contributor.name} (${contributor.email}) - ${contributor.commits} commits`;
     });
-    contributors.push(contributors[0]);
-    contributors.push(contributors[0]);
-    contributors.push(contributors[0]);
-    contributors.push(contributors[0]);
-    contributors.push(contributors[0]);
     return contributors;
   });
 };
@@ -144,6 +139,10 @@ const contributors = useContributors();
   font-size: small;
   .meta-item.contributors {
     width: 50%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 10px;
   }
   .meta-item-avatar {
     border-radius: 50% !important;
