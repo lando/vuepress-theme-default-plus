@@ -28,7 +28,6 @@ module.exports = {
       '/getting-started.md',
       {
         text: 'Foo',
-        link: '/foo/',
         children: [
           // SidebarItem
           {

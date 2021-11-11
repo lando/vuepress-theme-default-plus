@@ -29,6 +29,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.16.0",
     "@vuepress/plugin-docsearch": "^2.0.0-beta.27",
+    "@vuepress/plugin-git": "^2.0.0-beta.27",
     "@vuepress/plugin-palette": "^2.0.0-beta.27",
     "@vuepress/plugin-register-components": "^2.0.0-beta.27",
     "@vuepress/plugin-theme-data": "^2.0.0-beta.27",
@@ -36,7 +37,9 @@
     "eslint": "^7.32.0",
     "eslint-config-google": "^0.9.1",
     "eslint-plugin-vue": "^8.0.3",
+    "gravatar-url": "^4.0.1",
     "lodash": "^4.17.21",
+    "timeago.js": "^4.0.2",
     "version-bump-prompt": "^4",
     "vuepress": "^2.0.0-beta.27"
   }

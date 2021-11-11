@@ -1,25 +1,25 @@
 <template>
   <main class="page">
     <slot name="top" />
+
     <div class="theme-default-content">
       <Content />
     </div>
+
+    <CustomPageMeta />
+
+    <PageNav />
+
     <slot name="bottom" />
   </main>
 </template>
 
+<script setup>
+// Get parent page nav
+import PageNav from '@vuepress/theme-default/lib/client/components/PageNav.vue';
+// Use our custom page meta component
+import CustomPageMeta from './CustomPageMeta.vue';
+</script>
+
 <style lang="scss">
-.fade-slide-y-enter-active {
-  transition: all 0.3s ease;
-}
-
-.fade-slide-y-leave-active {
-  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
-}
-
-.fade-slide-y-enter-from,
-.fade-slide-y-leave-to {
-  transform: translateY(10px);
-  opacity: 0;
-}
 </style>

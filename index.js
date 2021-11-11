@@ -12,15 +12,18 @@ module.exports = (options, app) => {
     // @NOTE: only works with github repos
     // @NOTE: you need to set docRepo or repo and also contributors
     contributors: true,
-    contributorsText: 'Written by',
+    contributorsText: 'Contributors',
     contributorsPage: true,
 
     // Dark mode
     darkMode: true,
 
+    // Edit link text
+    editLinkText: 'Suggest an edit to this page',
+
     // Last updated
     lastUpdated: true,
-    lastUpdatedText: 'Last edit',
+    lastUpdatedText: 'Updated',
 
     // Shows the CarbonAds in the top sidebar
     showCarbonAds: true,
@@ -74,10 +77,6 @@ module.exports = (options, app) => {
     name: '@lando/vuepress-docs-theme',
     extends: '@vuepress/theme-default',
     layouts: path.resolve(__dirname, 'layouts'),
-    alias: {
-      'PageMeta.vue': path.resolve(__dirname, 'components', 'CustomPageMeta.vue'),
-      'PageMeta': path.resolve(__dirname, 'components', 'CustomPageMeta.vue'),
-    },
     clientAppEnhanceFiles: path.resolve(__dirname, 'clientAppEnhance.js'),
     plugins,
   };

@@ -63,7 +63,7 @@ export default {
 @import '../styles/main.scss';
 #special_sponsors {
   padding: 3em;
-  position: absolute;
+  position: fixed;
   right: 2em;
   top: 6em;
   width: 150px;
