@@ -11,9 +11,8 @@ module.exports = (options, app) => {
     // Core config
     logo: 'https://vuepress-theme-lando-docs.lando.dev/images/logo-pink-small.png',
 
-    // @TODO: for netlify concerns
-    // modifies header/footer links, external links in markdown files
-    // and search URLs
+    // Allows absolute links to this domain to behave like internal links
+    // This is useful for multiple sites that are served under one domain a la netlify
     baseUrl: 'https://docs.lando.dev',
 
     contributors: true,
@@ -70,7 +69,7 @@ module.exports = (options, app) => {
   if (options.contributorsPage && !_.includes(topLevelPages, 'contributors')) {
     // If its an external link then just passthrough immediately
     if (isLinkHttp(options.contributorsPage)) {
-      logger.info('programatically adding contributors page to sidebar, externally linked to %s');
+      logger.info('programatically adding contributors page to sidebar, externally linked to %s', options.contributorsPage);
       options.sidebar.push({text: options.contributorsText, link: options.contributorsPage});
     }
 
