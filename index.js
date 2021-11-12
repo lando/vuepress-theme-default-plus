@@ -1,4 +1,5 @@
 const {path} = require('@vuepress/utils');
+const customLinks = require('./plugins/plugin-custom-links.js');
 
 module.exports = (options, app) => {
   // Define default options
@@ -74,10 +75,13 @@ module.exports = (options, app) => {
   if (options.showSearch) plugins.push(['@vuepress/docsearch', options.searchSettings]);
 
   return {
-    name: '@lando/vuepress-docs-theme',
+    name: '@lando/vuepress-theme-lando-docs',
     extends: '@vuepress/theme-default',
     layouts: path.resolve(__dirname, 'layouts'),
     clientAppEnhanceFiles: path.resolve(__dirname, 'clientAppEnhance.js'),
     plugins,
+    extendsMarkdown: (md) => {
+      md.use(customLinks)
+    },
   };
 };

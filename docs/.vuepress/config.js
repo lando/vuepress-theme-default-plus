@@ -18,7 +18,7 @@ module.exports = {
       {text: 'Getting Started', link: 'https://docs.lando.dev/basics/'},
     ],
     logo: '/images/logo-pink-small.png',
-    repo: 'lando/vuepress-docs-theme',
+    repo: 'lando/vuepress-theme-lando-docs',
     showSearch: true,
     showSponsors: true,
     sponsors: yaml.load(fs.readFileSync(path.resolve(__dirname, '..', '..', 'sponsors.yml'), 'utf8')),
