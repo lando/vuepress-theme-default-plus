@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const {createPage} = require('@vuepress/core');
+const customLinks = require('./plugins/plugin-custom-links.js');
 const debug = require('debug')('@lando/docs-theme');
 const {isLinkHttp} = require('@vuepress/shared');
 const {logger, path} = require('@vuepress/utils');
@@ -13,7 +14,7 @@ module.exports = (options, app) => {
     // @TODO: for netlify concerns
     // modifies header/footer links, external links in markdown files
     // and search URLs
-    // baseUrl: docs.lando.dev
+    baseUrl: 'https://docs.lando.dev',
 
     contributors: true,
     contributorsText: 'Contributorz',
@@ -111,7 +112,7 @@ module.exports = (options, app) => {
    }
 
   return {
-    name: '@lando/vuepress-docs-theme',
+    name: '@lando/vuepress-theme-lando-docs',
     extends: '@vuepress/theme-default',
     layouts: path.resolve(__dirname, 'layouts'),
     plugins,
@@ -137,6 +138,9 @@ module.exports = (options, app) => {
         // add it to `app.pages`
         app.pages.push(contributors);
       }
+    },
+    extendsMarkdown: md => {
+      md.use(customLinks, options);
     },
   };
 };
