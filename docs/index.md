@@ -1,7 +1,5 @@
 # VuePress 2 Theme for Lando Docs
 
-[trill](https://www.google.com)
-
 ## How To Use
 
 Add the theme name to your [theme key](https://v2.vuepress.vuejs.org/guide/theme.html#community-theme) in your VuePress 2 config.js:

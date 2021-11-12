@@ -7,7 +7,7 @@ module.exports = (options, app) => {
     // @TODO: for netlify concerns
     // modifies header/footer links, external links in markdown files
     // and search URLs
-    // baseUrl: https://docs.lando.dev
+    baseUrl: 'https://docs.lando.dev',
 
     // Creates a contributors page and adds it to the sidebar
     // @NOTE: only works with github repos
@@ -81,7 +81,7 @@ module.exports = (options, app) => {
     clientAppEnhanceFiles: path.resolve(__dirname, 'clientAppEnhance.js'),
     plugins,
     extendsMarkdown: md => {
-      md.use(customLinks);
+      md.use(customLinks, options);
     },
   };
 };

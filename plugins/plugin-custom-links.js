@@ -8,15 +8,16 @@ const customLinksPlugin = (md, options = {}) => {
     // tag of internal links
     const internalTag = options.internalTag || 'RouterLink';
     // attrs that going to be added to external links
-    const externalAttrs = {
+    let externalAttrs = {
         target: '_blank',
         rel: 'noopener noreferrer',
         ...options.externalAttrs,
     };
     // external icon
-    const externalIcon = (_a = options.externalIcon) !== null && _a !== void 0 ? _a : true;
+    let externalIcon = (_a = options.externalIcon) !== null && _a !== void 0 ? _a : true;
     let hasOpenInternalLink = false;
     let hasOpenExternalLink = false;
+
     const handleLinkOpen = (tokens, idx, env) => {
         let _a;
         // get current token
@@ -31,6 +32,18 @@ const customLinksPlugin = (md, options = {}) => {
         // if `href` attr exists, `token.attrs` is not `null`
         const hrefAttr = token.attrs[hrefIndex];
         const hrefLink = hrefAttr[1];
+
+        // Check our baseUrl against the current url.
+        if (options.baseUrl !== null) {
+            let baseUrl = options.baseUrl.replace(/(^\w+:|^)\/\//, '');
+            let url = hrefLink.replace(/(^\w+:|^)\/\//, '');
+            if (url.includes(baseUrl)) {
+                externalAttrs.target = '_self';
+                externalAttrs.rel = '';
+                externalIcon = false;
+            }
+        }
+
         // get `base` and `filePathRelative` from `env`
         const {base = '/', filePathRelative = null, frontmatter = {}} = env;
         // check if a link is an external link
