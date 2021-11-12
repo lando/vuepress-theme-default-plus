@@ -58,7 +58,6 @@ const {showCarbonAds, showSponsors} = themeData.value;
 const scrollPromise = useScrollPromise();
 const onBeforeEnter = scrollPromise.resolve;
 const onBeforeLeave = scrollPromise.pending;
-
 </script>
 
 <style lang="scss">

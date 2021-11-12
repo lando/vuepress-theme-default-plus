@@ -1,5 +1,8 @@
 <template>
-  <footer class="page-meta">
+  <footer
+    v-if="show"
+    class="page-meta"
+  >
     <div class="page-meta-inner">
       <div class="page-meta-inner-right">
         <div
@@ -67,10 +70,11 @@ const useEditNavLink = () => {
   const page = usePageData();
   const frontmatter = usePageFrontmatter();
   return computed(() => {
-    const showEditLink = frontmatter.value.editLink || themeLocale.value.editLink || true;
+    const showEditLink = frontmatter.value.hasOwnProperty('editLink')
+      ? frontmatter.value.editLink : themeLocale.value.editLink || false;
 
     // Bail quick if we can
-    if (!showEditLink) return null;
+    if (!showEditLink) return false;
     const {
       repo,
       docsRepo = repo,
@@ -80,7 +84,7 @@ const useEditNavLink = () => {
     } = themeLocale.value;
 
     // Try to bail again
-    if (!docsRepo) return null;
+    if (!docsRepo) return false;
     const editLink = resolveEditLink({
       docsRepo,
       docsBranch,
@@ -90,7 +94,7 @@ const useEditNavLink = () => {
     });
 
     // Final bail attemp
-    if (!editLink) return null;
+    if (!editLink) return false;
     return {text: editLinkText || 'Edit this page', link: editLink};
   });
 };
@@ -100,8 +104,10 @@ const useLastUpdated = () => {
   const page = usePageData();
   const frontmatter = usePageFrontmatter();
   return computed(() => {
-    const showLastUpdated = frontmatter.value.lastUpdated || themeLocale.value.lastUpdated || true;
-    if (!showLastUpdated) return null;
+    const showLastUpdated = frontmatter.value.hasOwnProperty('lastUpdated')
+      ? frontmatter.value.lastUpdated : themeLocale.value.lastUpdated || false;
+
+    if (!showLastUpdated) return false;
     if (!page.value.git.updatedTime) return null;
     const updatedDate = new Date(page.value.git.updatedTime);
     return timeago.format(updatedDate.toLocaleString());
@@ -113,8 +119,10 @@ const useContributors = () => {
   const page = usePageData();
   const frontmatter = usePageFrontmatter();
   return computed(() => {
-    const showContributors = frontmatter.value.contributors || themeLocale.value.contributors || true;
-    if (!showContributors) return null;
+    const showContributors = frontmatter.value.hasOwnProperty('contributors')
+      ? frontmatter.value.contributors : themeLocale.value.contributors || false;
+
+    if (!showContributors) return false;
     const contributors = page.value.git.contributors || null;
     // add in gravatar things
     contributors.forEach(contributor => {
@@ -126,10 +134,14 @@ const useContributors = () => {
   });
 };
 
-const themeLocale = useThemeLocaleData();
+// Get things
+const contributors = useContributors();
 const editNavLink = useEditNavLink();
 const lastUpdated = useLastUpdated();
-const contributors = useContributors();
+const themeLocale = useThemeLocaleData();
+
+// compute show
+const show = computed(() => contributors.value || editNavLink.value || lastUpdated.value);
 </script>
 
 <style lang="scss" scoped>
@@ -160,6 +172,7 @@ const contributors = useContributors();
       text-align: right;
     }
     .edit-link {
+      cursor: pointer;
       display: block;
     }
   }

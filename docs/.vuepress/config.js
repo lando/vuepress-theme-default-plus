@@ -12,12 +12,12 @@ module.exports = {
   ],
   theme: path.resolve(__dirname, '../..'),
   themeConfig: {
+    contributorsPage: 'https://google.com',
     docsDir: 'docs',
     docsBranch: 'main',
     navbar: [
       {text: 'Getting Started', link: 'https://docs.lando.dev/basics/'},
     ],
-    logo: '/images/logo-pink-small.png',
     repo: 'lando/vuepress-docs-theme',
     showSearch: true,
     showSponsors: true,
