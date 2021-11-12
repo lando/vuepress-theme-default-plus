@@ -1,16 +1,10 @@
-"use strict";
+'use strict';
 
-const shared_1 = require("@vuepress/shared");
-const resolvePaths_1 = require("@vuepress/markdown/lib/plugins/linksPlugin/resolvePaths");
+const shared = require('@vuepress/shared');
+const resolvePaths = require('@vuepress/markdown/lib/plugins/linksPlugin/resolvePaths');
 
-/**
- * Process links in markdown file
- *
- * - internal links: convert them into `<RouterLink>`
- * - external links: add extra attrs and external icon
- */
 const customLinksPlugin = (md, options = {}) => {
-    var _a;
+    let _a;
     // tag of internal links
     const internalTag = options.internalTag || 'RouterLink';
     // attrs that going to be added to external links
@@ -24,7 +18,7 @@ const customLinksPlugin = (md, options = {}) => {
     let hasOpenInternalLink = false;
     let hasOpenExternalLink = false;
     const handleLinkOpen = (tokens, idx, env) => {
-        var _a;
+        let _a;
         // get current token
         const token = tokens[idx];
         // get `href` attr index
@@ -38,9 +32,9 @@ const customLinksPlugin = (md, options = {}) => {
         const hrefAttr = token.attrs[hrefIndex];
         const hrefLink = hrefAttr[1];
         // get `base` and `filePathRelative` from `env`
-        const { base = '/', filePathRelative = null, frontmatter = {} } = env;
+        const {base = '/', filePathRelative = null, frontmatter = {}} = env;
         // check if a link is an external link
-        if ((0, shared_1.isLinkExternal)(hrefLink, base)) {
+        if ((0, shared.isLinkExternal)(hrefLink, base)) {
             // set `externalAttrs` to current token
             Object.entries(externalAttrs).forEach(([key, val]) => token.attrSet(key, val));
             // check if we should render external icon
@@ -65,7 +59,7 @@ const customLinksPlugin = (md, options = {}) => {
             const rawPath = internalLinkMatch[1];
             const rawHash = internalLinkMatch[2] || '';
             // resolve relative and absolute path
-            const { relativePath, absolutePath } = (0, resolvePaths_1.resolvePaths)(rawPath, base, filePathRelative);
+            const {relativePath, absolutePath} = (0, resolvePaths.resolvePaths)(rawPath, base, filePathRelative);
             // normalize markdown file path to route path
             //
             // we are removing the `base` from absolute path because it should not be

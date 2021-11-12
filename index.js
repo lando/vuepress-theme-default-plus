@@ -80,8 +80,8 @@ module.exports = (options, app) => {
     layouts: path.resolve(__dirname, 'layouts'),
     clientAppEnhanceFiles: path.resolve(__dirname, 'clientAppEnhance.js'),
     plugins,
-    extendsMarkdown: (md) => {
-      md.use(customLinks)
+    extendsMarkdown: md => {
+      md.use(customLinks);
     },
   };
 };
