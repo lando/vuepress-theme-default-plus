@@ -4,9 +4,13 @@ const {createPage} = require('@vuepress/core');
 const customLinks = require('./plugins/plugin-custom-links.js');
 const debug = require('debug')('@lando/docs-theme');
 const {logger, path} = require('@vuepress/utils');
-const {Octokit} = require('@octokit/core');
-const octokit = new Octokit();
+const {paginateRest} = require('@octokit/plugin-paginate-rest');
 const url = require('url');
+
+// Octokit stuff
+const {Octokit} = require('@octokit/core');
+const MyOctokit = Octokit.plugin(paginateRest);
+const octokit = new MyOctokit();
 
 // Our things
 const pages = require('./lib/pages');
@@ -75,7 +79,8 @@ module.exports = (options, app) => {
             // Get contrib data from github
             const owner = url.parse(options.repo).pathname.split('/')[0];
             const repo = url.parse(options.repo).pathname.split('/')[1];
-            options.contributorsData = await octokit.request('GET /repos/{owner}/{repo}/contributors', {owner, repo}).data;
+            const data = await octokit.paginate('GET /repos/{owner}/{repo}/contributors', {owner, repo, per_page: 100});
+            options.contributorsData = data;
             // Add the page
             const contributorsPage = await createPage(app, pages.contributors(options));
             app.pages.push(contributorsPage);
