@@ -1,85 +1,24 @@
+// Mods
 const _ = require('lodash');
 const {createPage} = require('@vuepress/core');
 const customLinks = require('./plugins/plugin-custom-links.js');
 const debug = require('debug')('@lando/docs-theme');
-const {isLinkHttp} = require('@vuepress/shared');
 const {logger, path} = require('@vuepress/utils');
+const {Octokit} = require('@octokit/core');
+const octokit = new Octokit();
+const url = require('url');
+
+// Our things
+const pages = require('./lib/pages');
+const {canGenerateContribPage, getTopLevelPages} = require('./lib/utils');
 
 module.exports = (options, app) => {
-  // Define default options
-  const defaultOptions = {
-    // Core config
-    logo: 'https://vuepress-theme-lando-docs.lando.dev/images/logo-pink-small.png',
-
-    // Allows absolute links to this domain to behave like internal links
-    // This is useful for multiple sites that are served under one domain a la netlify
-    baseUrl: 'https://docs.lando.dev',
-
-    contributors: true,
-    contributorsText: 'Contributorz',
-    // Creates a contributors page and adds it to the sidebar
-    // can be true or an external link
-    // @NOTE: only works with github repos
-    // @NOTE: you need to set docRepo or repo and also contributors
-    contributorsPage: true,
-
-    // Dark mode
-    darkMode: true,
-
-    // Edit link text
-    editLink: true,
-    editLinkText: 'Suggest an edit to this page',
-
-    // Last updated
-    lastUpdated: true,
-    lastUpdatedText: 'Updated',
-
-    // Shows the CarbonAds in the top sidebar
-    showCarbonAds: true,
-
-    // Shows the special sponsors on the right, see sponsors below
-    // Can be true|false|or a list of sponsor ids to show
-    showSponsors: false,
-    sponsors: [],
-
-    // @TODO: this requires a valid repo be set and that its a github repo
-    showSearch: false,
-    searchSettings: {
-      apiKey: '15e332850128e9ec96929f44c62f6c88',
-      indexName: 'lando',
-    },
-  };
-
   // Rebase options on defaults
-  options = {...defaultOptions, ...options};
+  options = {...require('./lib/defaults'), ...options};
 
   // Get a list of pages for the top level of sidebar and normalize them for easy compare
-  const topLevelPages = _(options.sidebar)
-    .map(item => (_.isString(item)) ? item : item.link)
-    .compact()
-    .map(item => path.basename(item, '.md'))
-    .map(item => path.basename(item, '.html'))
-    .value();
+  const topLevelPages = getTopLevelPages(options.sidebar);
   debug('found normalized top level pages %o', topLevelPages);
-
-  // Get more repo info?
-
-
-  // If contributorPage is true and we dont already have a contributors page then push to sidebar
-  if (options.contributorsPage && !_.includes(topLevelPages, 'contributors')) {
-    // If its an external link then just passthrough immediately
-    if (isLinkHttp(options.contributorsPage)) {
-      logger.info('programatically adding contributors page to sidebar, externally linked to %s', options.contributorsPage);
-      options.sidebar.push({text: options.contributorsText, link: options.contributorsPage});
-    }
-
-    // If its a supported repo type then
-
-    // @TODO: get repo type and external contrib list
-    // throw warning if not github or type not supported?
-    // logger.info('programatically adding contributors page...');
-    // options.sidebar.push({text: options.contributorsText, link: '/contributors.html'});
-  }
 
   // Plugins that we need no matter what
   const plugins = [
@@ -105,10 +44,10 @@ module.exports = (options, app) => {
   ];
 
   // Add in search if applicable
-   if (options.showSearch) {
-     debug('adding in search plugin...');
-     plugins.push(['@vuepress/docsearch', options.searchSettings]);
-   }
+  if (options.showSearch) {
+    debug('adding in search plugin...');
+    plugins.push(['@vuepress/docsearch', options.searchSettings]);
+  }
 
   return {
     name: '@lando/vuepress-theme-lando-docs',
@@ -118,26 +57,39 @@ module.exports = (options, app) => {
 
     // Add in some pages
     async onInitialized(app) {
-      // Add contributor page unless user has manually created it
-      const contribPagePath = '/contributors.html';
-      if (options.contributorsPage && app.pages.every(page => page.path !== contribPagePath)) {
-        // if the homepage does not exist
-        const contributors = await createPage(app, {
-          path: contribPagePath,
-          // set frontmatter
-          frontmatter: {
-            contributors: false,
-            editLink: false,
-            lastUpdated: false,
-            title: options.contributorsText,
-            layout: 'Layout',
-          },
-          // set markdown content
-        });
-        // add it to `app.pages`
-        app.pages.push(contributors);
+      // Add contributors to sidebar if we arent replacing a manually added one
+      if (options.contributorsSidebar && !_.includes(topLevelPages, 'contributors')) {
+        app.options.themeConfig.sidebar.push({text: options.contributorsText, link: options.contributorsSidebar});
+        debug('programatically added contributors to sidebar @ %s', '/contributors.html');
+      }
+
+      // Add contributors page if we arent replacing a manually added one
+      if (options.contributorsPage && app.pages.every(page => page.path !== options.contributorsPage)) {
+        // Throw a warning if we cannot generate the page
+        if (!canGenerateContribPage(options)) {
+          logger.warn('contrib page not generated. ensure that "repo" is a github repo and "contributorsPage" is internal.');
+
+        // Otherwise make that shit
+        } else {
+          try {
+            // Get contrib data from github
+            const owner = url.parse(options.repo).pathname.split('/')[0];
+            const repo = url.parse(options.repo).pathname.split('/')[1];
+            options.contributorsData = await octokit.request('GET /repos/{owner}/{repo}/contributors', {owner, repo}).data;
+            // Add the page
+            const contributorsPage = await createPage(app, pages.contributors(options));
+            app.pages.push(contributorsPage);
+            debug('programatically adding contributors page to sidebar, internally linked to %s', '/contributors.html');
+
+          // Log error
+          } catch (err) {
+            logger.error('could not automatically generate contributors page with error', err);
+          };
+        }
       }
     },
+
+    // Replace the core linksPlugin
     extendsMarkdown: md => {
       md.use(customLinks, options);
     },

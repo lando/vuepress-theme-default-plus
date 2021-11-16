@@ -12,7 +12,6 @@ module.exports = {
   ],
   theme: path.resolve(__dirname, '../..'),
   themeConfig: {
-    contributorsPage: 'https://google.com',
     docsDir: 'docs',
     docsBranch: 'main',
     navbar: [

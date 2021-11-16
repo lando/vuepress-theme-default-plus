@@ -26,6 +26,7 @@
     "test": "yarn lint"
   },
   "dependencies": {
+    "@octokit/core": "^3.5.1",
     "@vuepress/client": "2.0.0-beta.27",
     "@vuepress/core": "2.0.0-beta.27",
     "@vuepress/plugin-active-header-links": "2.0.0-beta.27",

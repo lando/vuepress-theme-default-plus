@@ -1,0 +1,5 @@
+# {{ $frontmatter.title }}
+
+::: tip
+stusgeesg
+:::
