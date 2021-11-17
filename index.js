@@ -19,6 +19,10 @@ const {canGenerateContribPage, getTopLevelPages} = require('./lib/utils');
 module.exports = (options, app) => {
   // Rebase options on defaults
   options = {...require('./lib/defaults'), ...options};
+  // We want to preserve the value of options.repo but we do not want to set it because it will show up
+  // in the nav if we do
+  options.sourceRepo = options.repo;
+  delete options.repo;
 
   // Get a list of pages for the top level of sidebar and normalize them for easy compare
   const topLevelPages = getTopLevelPages(options.sidebar);
@@ -77,8 +81,8 @@ module.exports = (options, app) => {
         } else {
           try {
             // Get contrib data from github
-            const owner = url.parse(options.repo).pathname.split('/')[0];
-            const repo = url.parse(options.repo).pathname.split('/')[1];
+            const owner = url.parse(options.sourceRepo).pathname.split('/')[0];
+            const repo = url.parse(options.sourceRepo).pathname.split('/')[1];
             const data = await octokit.paginate('GET /repos/{owner}/{repo}/contributors', {owner, repo, per_page: 100});
             options.contributorsData = data;
             // Add the page

@@ -76,8 +76,8 @@ const useEditNavLink = () => {
     // Bail quick if we can
     if (!showEditLink) return false;
     const {
-      repo,
-      docsRepo = repo,
+      sourceRepo,
+      docsRepo = sourceRepo,
       docsBranch = 'main',
       docsDir = '',
       editLinkText,
