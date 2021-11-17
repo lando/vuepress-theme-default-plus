@@ -29,9 +29,15 @@ module.exports = (options, app) => {
   debug('found normalized top level pages %o', topLevelPages);
 
   // If baseURL is set then lets mutate landoNavbar
-  if (options.baseUrl) options.landoNavbar = makeFauxInternal(options.landoNavbar, options.baseUrl);
+  if (options.baseUrl) {
+    options.landoNavbar = makeFauxInternal(options.landoNavbar, options.baseUrl);
+    debug('rebased navbar so links to %s appear as internal links', options.baseUrl);
+  }
   // If we want to show the lando sidebar then lets add it to the begining of the navbar
-  if (options.showLandoNavbar) options.navbar = options.landoNavbar.concat(options.navbar);
+  if (options.showLandoNavbar) {
+    options.navbar = options.landoNavbar.concat(options.navbar);
+    debug('prepended lando navbar to user specified navbar with %o', options.landoNavbar);
+  }
 
   // Plugins that we need no matter what
   const plugins = [
@@ -58,8 +64,8 @@ module.exports = (options, app) => {
 
   // Add in search if applicable
   if (options.showSearch) {
-    debug('adding in search plugin...');
     plugins.push(['@vuepress/docsearch', options.searchSettings]);
+    debug('added search plugin');
   }
 
   return {
@@ -73,7 +79,7 @@ module.exports = (options, app) => {
       // Add contributors to sidebar if we arent replacing a manually added one
       if (options.contributorsSidebar && !_.includes(topLevelPages, 'contributors')) {
         app.options.themeConfig.sidebar.push({text: options.contributorsText, link: options.contributorsSidebar});
-        debug('programatically added contributors to sidebar @ %s', '/contributors.html');
+        debug('programatically added %s to sidebar linking to %s', options.contributorsText, options.contributorsSidebar);
       }
 
       // Add contributors page if we arent replacing a manually added one
@@ -93,7 +99,7 @@ module.exports = (options, app) => {
             // Add the page
             const contributorsPage = await createPage(app, pages.contributors(options));
             app.pages.push(contributorsPage);
-            debug('programatically adding contributors page to sidebar, internally linked to %s', '/contributors.html');
+            debug('programatically added contributors page to %s', options.contributorsPage);
 
           // Log error
           } catch (err) {
