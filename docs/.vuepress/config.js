@@ -12,10 +12,11 @@ module.exports = {
   ],
   theme: path.resolve(__dirname, '../..'),
   themeConfig: {
+    baseUrl: 'https://docs.lando.dev',
     docsDir: 'docs',
     docsBranch: 'main',
     navbar: [
-      {text: 'Getting Started', link: 'https://docs.lando.dev/basics/'},
+      {text: 'Example External', link: 'https://docs.lando.dev/basics/'},
     ],
     repo: 'lando/vuepress-docs-theme',
     showSearch: true,

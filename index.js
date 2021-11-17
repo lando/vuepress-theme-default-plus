@@ -14,7 +14,7 @@ const octokit = new MyOctokit();
 
 // Our things
 const pages = require('./lib/pages');
-const {canGenerateContribPage, getTopLevelPages} = require('./lib/utils');
+const {canGenerateContribPage, getTopLevelPages, makeFauxInternal} = require('./lib/utils');
 
 module.exports = (options, app) => {
   // Rebase options on defaults
@@ -27,6 +27,11 @@ module.exports = (options, app) => {
   // Get a list of pages for the top level of sidebar and normalize them for easy compare
   const topLevelPages = getTopLevelPages(options.sidebar);
   debug('found normalized top level pages %o', topLevelPages);
+
+  // If baseURL is set then lets mutate landoNavbar
+  if (options.baseUrl) options.landoNavbar = makeFauxInternal(options.landoNavbar, options.baseUrl);
+  // If we want to show the lando sidebar then lets add it to the begining of the navbar
+  if (options.showLandoNavbar) options.navbar = options.landoNavbar.concat(options.navbar);
 
   // Plugins that we need no matter what
   const plugins = [
