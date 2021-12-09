@@ -3,8 +3,51 @@
 import docsearch from '@docsearch/js';
 import {usePageLang, useRouteLocale} from '@vuepress/client';
 import {computed, h, onMounted, watch} from 'vue';
-// import { useDocsearchShim } from '../composables';
 import '@docsearch/css';
+
+import {useSiteData} from '@vuepress/client';
+import {resolveRoutePathFromUrl} from '@vuepress/shared';
+import {createElement} from 'preact';
+import {useRouter} from 'vue-router';
+const isSpecialClick = event => event.button === 1 ||
+    event.altKey ||
+    event.ctrlKey ||
+    event.metaKey ||
+    event.shiftKey;
+
+const useDocsearchShim = () => {
+    const router = useRouter();
+    const site = useSiteData();
+    return {
+        // transform full url to route path
+        transformItems: items => items.map(item => ({
+            ...item,
+            // the `item.url` is full url with protocol and hostname
+            // so we have to transform it to vue-router path
+            url: resolveRoutePathFromUrl(item.url, site.value.base),
+        })),
+        // render the hit component with custom `onClick` handler
+        hitComponent: ({hit, children}) => createElement('a', {
+            href: hit.url,
+            // handle `onClick` by `router.push`
+            onClick: event => {
+                if (isSpecialClick(event)) {
+                    return;
+                }
+                event.preventDefault();
+                router.push(hit.url);
+            },
+        }, children),
+        // navigation behavior triggered by `onKeyDown` internally
+        navigator: {
+            // when pressing Enter without metaKey
+            navigate: ({itemUrl}) => {
+                router.push(itemUrl);
+            },
+        },
+    };
+};
+
 
 export default {
   name: 'Docsearch2', // eslint-disable-line
@@ -17,7 +60,7 @@ export default {
   setup(props) {
     const routeLocale = useRouteLocale();
     const lang = usePageLang();
-    // const docsearchShim = useDocsearchShim();
+    const docsearchShim = useDocsearchShim();
     // resolve docsearch props for current locale
     const propsLocale = computed(() => {
         let _a;
@@ -31,7 +74,7 @@ export default {
         let _a; let _b;
         facetFilters.splice(0, facetFilters.length, `lang:${lang.value}`, ...((_b = (_a = propsLocale.value.searchParameters) === null || _a === void 0 ? void 0 : _a.facetFilters) !== null && _b !== void 0 ? _b : []));
         docsearch({
-            // ...docsearchShim,
+            ...docsearchShim,
             ...propsLocale.value,
             container: '#docsearch-container',
             searchParameters: {
@@ -45,8 +88,8 @@ export default {
         // re-initialize if the options is changed
         watch([routeLocale, propsLocale], ([curRouteLocale, curPropsLocale], [prevRouteLocale, prevPropsLocale]) => {
             if (curRouteLocale === prevRouteLocale) {
-return;
-}
+                return;
+            }
             if (JSON.stringify(curPropsLocale) !== JSON.stringify(prevPropsLocale)) {
                 initialize();
             }
