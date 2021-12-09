@@ -1,3 +1,0 @@
-# Installation
-
-## Other htings
