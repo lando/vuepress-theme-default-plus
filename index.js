@@ -89,6 +89,9 @@ module.exports = (options, app) => {
     extends: '@vuepress/theme-default',
     layouts: path.resolve(__dirname, 'layouts'),
     clientAppEnhanceFiles: path.resolve(__dirname, './clientAppEnhance.js'),
+    define: {
+      __THEME_OPTIONS__: options,
+    },
     plugins,
 
     // Add some page data

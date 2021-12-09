@@ -15,7 +15,7 @@ const isSpecialClick = event => event.button === 1 ||
     event.metaKey ||
     event.shiftKey;
 
-const useDocsearchShim = () => {
+const useDocsearchShim = baseUrl => {
     const router = useRouter();
     const site = useSiteData();
     return {
@@ -24,7 +24,7 @@ const useDocsearchShim = () => {
             ...item,
             // the `item.url` is full url with protocol and hostname
             // so we have to transform it to vue-router path
-            url: resolveRoutePathFromUrl(item.url, site.value.base),
+            url: applyBaseUrl(item.url, site.value.base, baseUrl),
         })),
         // render the hit component with custom `onClick` handler
         hitComponent: ({hit, children}) => createElement('a', {
@@ -48,19 +48,23 @@ const useDocsearchShim = () => {
     };
 };
 
+const applyBaseUrl = (url, sep, baseUrl) => {
+  const path = resolveRoutePathFromUrl(url, sep);
+  return baseUrl !== null ? baseUrl + path : path;
+};
 
 export default {
   name: 'Docsearch2', // eslint-disable-line
   props: {
       options: {
-          type: Object,
-          required: true,
+        type: Object,
+        required: true,
       },
   },
   setup(props) {
     const routeLocale = useRouteLocale();
     const lang = usePageLang();
-    const docsearchShim = useDocsearchShim();
+    const docsearchShim = useDocsearchShim(props.options.baseUrl);
     // resolve docsearch props for current locale
     const propsLocale = computed(() => {
         let _a;
@@ -88,10 +92,10 @@ export default {
         // re-initialize if the options is changed
         watch([routeLocale, propsLocale], ([curRouteLocale, curPropsLocale], [prevRouteLocale, prevPropsLocale]) => {
             if (curRouteLocale === prevRouteLocale) {
-                return;
+              return;
             }
             if (JSON.stringify(curPropsLocale) !== JSON.stringify(prevPropsLocale)) {
-                initialize();
+              initialize();
             }
         });
         // modify the facetFilters in place to avoid re-initializing docsearch
@@ -100,7 +104,7 @@ export default {
             if (curLang !== prevLang) {
                 const prevIndex = facetFilters.findIndex(item => item === `lang:${prevLang}`);
                 if (prevIndex > -1) {
-                    facetFilters.splice(prevIndex, 1, `lang:${curLang}`);
+                  facetFilters.splice(prevIndex, 1, `lang:${curLang}`);
                 }
             }
         });
