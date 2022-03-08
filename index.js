@@ -96,6 +96,11 @@ module.exports = (options, app) => {
     }
   }
 
+  if (options.robots && options.robots.enabled) {
+    plugins.push([path.resolve(__dirname, './plugins/plugin-robots.js'), options.robots]);
+    debug('added robots plugin');
+  }
+
   // If baseUrl and base are both set and home is not then lets set a better default
   if (app.options.base && options.baseUrl && !options.home) {
     options.home = options.baseUrl;
