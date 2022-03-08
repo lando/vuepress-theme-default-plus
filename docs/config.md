@@ -286,6 +286,57 @@ Set `enable: true` to turn on the default search functionality. If you wish to l
 
 Note that if you want to search across many sites that operate under a single domain then you will also need to set the `baseUrl`.
 
+## Sitemap.xml
+
+#### Sitemap.xml
+
+* Type: `Object`
+
+* Default:
+
+  ```js
+  sitemap: {
+    enabled: true,
+  },
+  ```
+
+* Example:
+
+  ```js
+  sitemap: {
+    enabled: true,
+    hostUrl: 'https://stuffandthings.com',
+    changefreq: 'daily',
+    priority: 0.5,
+    urls: [
+      'stuff.html',
+      'things.html,
+    ],
+    exclude: [
+      'badstuff.html'
+    ],
+  },
+  ```
+
+* Details:
+
+The sitemap plugin will use the [canonicalurl](#canonicalurl) and then the [baseUrl](#generic-config) if they are defined to set the base url.  You can override this with the `hostUrl` option if need be.
+
+You can also globally set the `changefreq` and `priority` for all pages that do not have them defined in their frontmatter.  You can also add additional urls that may not get picked up in the pages object via `urls`. You can also choose to exclude certain urls via the `exclude` option array as well.
+
+* Frontmatter
+
+You can override the global config for the following options via the frontmatter of any page:
+
+```yaml
+---
+sitemap:
+  exclude: false
+  changefreq: hourly
+  priority: 1.0
+---
+```
+
 ## Social
 
 #### social

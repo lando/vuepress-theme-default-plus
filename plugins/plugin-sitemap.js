@@ -15,7 +15,7 @@ function stripLocalePrefix(path, localePathPrefixes) {
 
 module.exports = (options, app) => {
   const {
-    baseUrl = '',
+    hostUrl = '',
     outFile = 'sitemap.xml',
     changefreq = 'daily',
     priority = 0.5,
@@ -26,9 +26,9 @@ module.exports = (options, app) => {
   return {
     name: '@lando/plugin-sitemap',
     onGenerated: () => {
-      const hostname = baseUrl === ''
+      const hostname = hostUrl === ''
         ? app.options.themeConfig.canonicalUrl || app.options.themeConfig.baseUrl
-        : baseUrl;
+        : hostUrl;
 
       if (!hostname) {
         return debug('Not generating sitemap because there is no hostname / baseurl to use');
