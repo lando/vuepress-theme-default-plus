@@ -214,6 +214,48 @@ This will automatically generate a page of previous versions of the docs based o
 
 The `content`, `link` and `title` are all editable. You can also choose to _not_ trim the latest version of the docs or _not_ show the link to the latest version of the docs.
 
+## Robots.txt
+
+#### Robots.txt
+
+* Type: `Object`
+
+* Default:
+
+  ```js
+  robots: {
+    enabled: true,
+    allowAll: true,
+  },
+  ```
+
+* Example:
+
+  ```js
+  search: {
+    enabled: true,
+    disallowAll: false,
+    allowAll: false,      
+    policies: [
+      {
+        userAgent: '*',
+        disallow: [
+          '/user/',
+          '/login'
+        ],
+        allow: [
+          '*.js',
+          '*.png'
+        ]
+      }
+    ]
+  },
+  ```
+
+* Details:
+
+If `disallowAll` is set to true, it will ignore all other options and exclude everything on the site from indexing.  `allowAll` is set to true by default and this ignored the `policies` option.  To use the `policies` option, make sure both `disallowAll` and `allowAll` are set to `false`.
+
 ## Search
 
 #### search

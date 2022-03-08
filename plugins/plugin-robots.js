@@ -6,7 +6,6 @@ module.exports = (options, app) => {
   const {
     allowAll = false, // Allow All: false by default
     disallowAll = false, // Disallow all: false by default
-    host, // Base URL
     policies, // Default policies is null
     outputFile = 'robots.txt', // Default robots is robots.txt
   } = options;
@@ -51,7 +50,7 @@ module.exports = (options, app) => {
         }
 
         robotstxt({
-          policy: policyArray, host: host,
+          policy: policyArray
         }).then(content => {
           fs.writeFileSync(robotsTxt, content);
           return content;
