@@ -50,7 +50,7 @@ module.exports = (options, app) => {
         }
 
         robotstxt({
-          policy: policyArray
+          policy: policyArray,
         }).then(content => {
           fs.writeFileSync(robotsTxt, content);
           return content;
