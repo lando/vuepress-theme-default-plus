@@ -1,6 +1,7 @@
 const {path} = require('@vuepress/utils');
 const robotstxt = require('generate-robotstxt');
 const fs = require('fs');
+const debug = require('debug')('@lando/default-plus');
 
 module.exports = (options, app) => {
   const {
@@ -12,8 +13,8 @@ module.exports = (options, app) => {
 
   return {
     name: '@lando/plugin-robots',
-    onGenerated: page => {
-      console.log('Generating robots.txt ...');
+    onGenerated: () => {
+      debug('Generating robots.txt ...');
 
       if (app.env.isBuild) {
         const robotsTxt = path.resolve(
@@ -58,7 +59,7 @@ module.exports = (options, app) => {
           throw error;
         });
       } else {
-        console.log('robots.txt will only generate in build');
+        debug('robots.txt will only generate in build');
       }
     },
   };

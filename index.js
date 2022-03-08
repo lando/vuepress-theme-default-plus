@@ -101,6 +101,11 @@ module.exports = (options, app) => {
     debug('added robots plugin');
   }
 
+  if (options.sitemap) {
+    plugins.push([path.resolve(__dirname, './plugins/plugin-sitemap.js'), options.sitemap]);
+    debug('added sitemap plugin');
+  }
+
   // If baseUrl and base are both set and home is not then lets set a better default
   if (app.options.base && options.baseUrl && !options.home) {
     options.home = options.baseUrl;
