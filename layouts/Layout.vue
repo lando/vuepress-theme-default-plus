@@ -25,21 +25,21 @@
     <ParentLayout>
       <template #navbar-after>
         <SocialLinks
-          v-if="social.enabled"
-          :icons="social.icons"
+          v-if="social"
+          :icons="social"
         />
       </template>
       <template #sidebar-top>
         <CarbonAds
-          v-if="carbonAds.enabled"
+          v-if="carbonAds"
           :placement="carbonAds.placement"
           :serve="carbonAds.serve"
         />
         <SidebarHeader
-          v-if="sidebarHeader.enabled"
+          v-if="sidebarHeader"
           :title="sidebarHeader.title"
           :version="sidebarHeader.version"
-          :link="sidebarHeader.versionLink"
+          :link="sidebarHeader.link"
           :icon="sidebarHeader.icon"
         />
       </template>
@@ -87,9 +87,11 @@ import Page from '@theme/Page.vue';
 // Theme components
 import CarbonAds from '../components/CarbonAds.vue';
 import Guide from '../components/Guide.vue';
-import SidebarHeader from '../components/SidebarHeader.vue';
 import SocialLinks from '../components/SocialLinks.vue';
 // import Sponsors from '../components/SponsorsList.vue';
+
+// Plugin components
+import SidebarHeader from '../plugins/plugin-sidebar-header/SidebarHeader.vue';
 
 // Get theme data
 const frontmatter = usePageFrontmatter();

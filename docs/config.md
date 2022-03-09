@@ -6,24 +6,19 @@ description: Learn the configuration options for VuePress2 Default Theme Plus.
 
 This theme _extends_ the [VuePress2 Default Theme](https://v2.vuepress.vuejs.org/reference/default-theme/config.html#basic-config) but sets [slightly different defaults](https://github.com/lando/vuepress-theme-default-plus/blob/main/lib/defaults.js). _Theoretically_ all the options supported in the default theme should also be available in this one.
 
-Here are the additional configuration options that we've added.
+Before you get started its _**HEAVILY RECOMMENDED**_ that you set the following parent config before proceeding. Here is what we set for the repo that generates these docs:
+
+```js
+themConfig: {
+  docsDir: 'docs',
+  docsBranch: 'main',
+  repo: 'lando/vuepress-theme-default-plus',
+},
+```
+
+And here is our special config:
 
 ## Generic Config
-
-#### autoPopulate
-
-* Type: `Boolean`
-
-* Default: `false`
-
-* Details:
-
-  This will attempt to grab information about your project using `repo`. **Currently only GitHub repos are supported.**
-
-* Requirements:
-
-  This requires you also set `repo`.
-
 
 #### alias
 
@@ -33,7 +28,7 @@ Here are the additional configuration options that we've added.
 
 * Details:
 
-  This allows the user to override any downstream components with their own. See [https://v2.vuepress.vuejs.org/advanced/cookbook/making-a-theme-extendable.html#component-aliases].
+  This allows the user to override any downstream components with their own. [See this](https://v2.vuepress.vuejs.org/advanced/cookbook/making-a-theme-extendable.html#component-aliases).
 
 * Example:
 
@@ -53,21 +48,30 @@ Here are the additional configuration options that we've added.
 
 * Details:
 
-  This allows external links to the specified `baseUrl` to be experentially treated like internal links. This is useful if you have multiple  VuePress sites that are all tied together into a single domain experient a la Netlify's rewrite functionality.
+  This allows external links to the specified `baseUrl` to be experentially treated like internal links. This is useful if you have multiple VuePress sites that are all tied together into a single domain experient a la Netlify's rewrite functionality.
 
   If you don't understand what that is or you only have a single docs site then its best to just ignore this one.
 
-#### canonicalUrl
 
-* Type: `String`
+#### defaults
 
-* Default: `null`
+* Type: `Object`
 
-* Example: `canonicalUrl: "https://vuepress-theme-default-plus.lando.dev"`
+* Default: [Here](https://github.com/lando/vuepress-theme-default-plus/blob/main/config/defaults.js)
+
+* Example:
+
+  ```js
+  defaults: {
+    ga: {
+      id: 'SOME ID',
+    },
+  }
+  ````
 
 * Details:
 
-  Set this if you care about the theme automatically generating common metatags with URL data.
+  This allows you to easily extend this theme with defaults that make more sense for you. This lets you distribute common config to all the things that use it like Google Analytics IDs, shared navbar items, etc.
 
 #### sharedNavbar
 
@@ -85,20 +89,41 @@ Here are the additional configuration options that we've added.
 
 * Details:
 
-  This prepends a bunch of entries to the usual `navbar` and follows the same format. It is usually used in combination with `baseUrl` to bring its "treat like internal link" functionality to the `navbar`.
+  This prepends a bunch of entries to the usual `navbar` and follows the same format. It is usually used in combination with `baseUrl` to bring its "treat like internal link" functionality to the `navbar`. It also is useful if you want to extend this theme deploy a shared navbar
 
+## Autometa
+
+#### autometa
+
+* Type: `Object || Boolean`
+
+* Default: `false`
+
+* Example:
+
+  ```js
+  autometa: {
+    twitter: '@devwithlando',
+    canonicalUrl: 'https://vuepress-theme-default-plus.lando.dev/',
+  },
+  ```
+
+* Details:
+
+  Set this if you care about the theme automatically generating common metatags.
 
 ## Tracking
 
 #### ga
 
-* Type: `Object`
+* Type: `Object || Boolean`
 
-* Default:
+* Default: `false`
+
+* Example:
 
   ```js
   ga: {
-    enabled: false,
     id: null,
   }
   ```
@@ -109,13 +134,14 @@ Here are the additional configuration options that we've added.
 
 #### hubspot
 
-* Type: `Object`
+* Type: `Object || Boolean`
 
-* Default:
+* Default: `false`
+
+* Example:
 
   ```js
   hubspot: {
-    enabled: false,
     id: null,
   }
   ```
@@ -128,136 +154,167 @@ Here are the additional configuration options that we've added.
 
 #### sidebarHeader
 
-* Type: `Object`
+* Type: `Object || Boolean`
 
-* Default:
+* Default: `false`
 
-  ```js
-  sidebarHeader: {
-    enabled: false,
-    icon: null,
-    title: null,
-    version: null,
-    versionLink: null,
-  }
-  ```
-
-* Example:
+* Full Example:
 
   ```js
   sidebarHeader: {
-    enabled: true,
+    auto: true,
+    repo: 'lando/vuepress-theme-default-plus',
+    icon: './icon.png',
     title: 'Current Version',
-  },
+    version: null,
+    link: null,
+  }
   ```
 
 * Details:
 
   `sidebarHeader` allows you to give greater context and organization around the secondary sidebar menu. This is particularly useful if you have a single site that combines the docs of many projects together.
 
-  It is best used when `autopopulate` is set to `true` because this will automatically set both `sidebarHeader.version` and `sidebarHeader.versionLink` unless they are set directly in the config.
+  If you set `auto` to `true` and `repo` is a public GitHub repo then the theme will attempt to populate the other values for you. However, if you manually set a value then the theme will prefer that. So in the above Full Example the theme will set `version` and `link` automatically but will use `Current Version` for the title.
 
-  `sidebarHeader.icon` is optional and puts the specificed icon to the left of the title.
+  If you do not set `repo` explicitly the theme will try to use `themeConfig.repo` instead.
 
+  `icon` is optional and puts the specificed icon to the left of the title.
 
 ## Contributors Page
 
-#### page.contributors
+#### contributorsPage
 
-* Type: `Object`
+* Type: `Object || Boolean`
 
 * Default:
 
   ```js
-  pages: {
-    contributors: {
-      enabled: true,
-      content: fs.readFileSync(path.resolve(__dirname, '..', 'pages', 'contributors.md')),
-      data: [],
-      link: '/contributors.html',
-      title: 'Contributorz',
-    },
+  contributorsPage: {
+    auto: true,
+  },
+  ```
+
+* Full Example:
+
+  ```js
+  contributorsPage: {
+    auto: true,
+    repo: 'lando/vuepress-theme-default-plus',
+    content: fs.readFileSync(path.resolve(__dirname, 'contributors.md')),
+    data: [{
+      name: 'pirog',
+      img: 'https://me.pic',
+      link: 'pirog.dev',
+      score: 100,
+    }],
+    docsBranch: 'main',
+    docsDir: '',
+    link: '/contributors.html',
+    title: 'Contributorz',
   },
   ```
 
 * Details:
 
-This will automatically generate a page of contributors based on the `data`. It is best used when `autopopulate` is set to `true` as this will automatically fill `data`.
+  This will automatically generate a page of contributors based on the `data`.
 
-The `content`, `link` and `title` are all editable.
+  If you set `auto` to `true` and `repo` is a public GitHub repo then the theme will attempt to populate the data for you. However, if you manually set a value then the theme will prefer that. So in the above Full Example the theme will just use `data` instead of what is on GitHub.
+
+  If you do not set `repo`, `docsBranch` and `docsDir` explicitly the theme will use `themeConfig.repo`, `themeConfig.docsBranch`, `themeConfig.docsDir` instead.
 
 ## Versions Page
 
-#### page.versions
+#### versionsPage
 
-* Type: `Object`
+* Type: `Object || Boolean`
 
 * Default:
 
   ```js
-  pages: {
-    versions: {
-      enabled: true,
-      content: fs.readFileSync(path.resolve(__dirname, '..', 'pages', 'versions.md')),
-      data: [],
-      link: '/versions.html',
-      title: 'Previous Versions',
-      trimLatest: true,
-      showEdge: true,
-    },
+  versionsPage: {
+    auto: true,
+    trimLatest: true,
+    showEdge: true,
+  },
+  ```
+
+* Full Example:
+
+  ```js
+  versionsPage: {
+    auto: true,
+    repo: 'lando/vuepress-theme-default-plus',
+    content: fs.readFileSync(path.resolve(__dirname, 'versions.md')),
+    data: [{
+      name: '3.1.4',
+      href: `https://github.com/pi/pi/tree/3.1.4`,
+      target: '_blank',
+      rel: 'noopener noreferrer',
+    }],
+    docsBranch: 'main',
+    docsDir: '',
+    link: '/versions.html',
+    showEdge: false,
+    title: 'Previous Versions',
+    trimLatest: true,
   },
   ```
 
 * Details:
 
-This will automatically generate a page of previous versions of the docs based on the `data`. It is best used when `autopopulate` is set to `true` as this will automatically fill `data`.
+  This will automatically generate a page of previous versions based on the `data`.
 
-The `content`, `link` and `title` are all editable. You can also choose to _not_ trim the latest version of the docs or _not_ show the link to the latest version of the docs.
+  If you set `auto` to `true` and `repo` is a public GitHub repo then the theme will attempt to populate the data for you. However, if you manually set a value then the theme will prefer that. So in the above Full Example the theme will just use `data` instead of what is on GitHub.
+
+  If you do not set `repo`, `docsBranch` and `docsDir` explicitly the theme will use `themeConfig.repo`, `themeConfig.docsBranch`, `themeConfig.docsDir` instead.
+
+  `trimLatest` will pop off the most recent version. `showEdge` can be either a URL or `true`.
 
 ## Search
 
 #### search
 
-* Type: `Object`
+* Type: `Object || Boolean`
 
 * Default:
 
   ```js
-  search: {
-    enabled: false,
-  },
+  search: false
   ```
 
 * Example:
 
+  `Docsearch`
   ```js
   search: {
-    enabled: true,
     apiKey: '15e332feefe9ec96929f44c62f6c88',
     indexName: 'lando',
+    searchBase: 'https://docs.lando.dev,
   },
+  ```
+
+  `default search`
+  ```js
+  search: true
   ```
 
 * Details:
 
-Set `enable: true` to turn on the default search functionality. If you wish to leverage [Docsearch](https://docsearch.algolia.com/) then you also need to pass in an `apiKey` and `indexName`.
+Set to `true` to turn on the default search functionality. If you wish to leverage [Docsearch](https://docsearch.algolia.com/) then you also need to pass in an `apiKey` and `indexName`.
 
-Note that if you want to search across many sites that operate under a single domain then you will also need to set the `baseUrl`.
+Note that if you want to search across many sites that operate under a single domain then you will also need to set the `searchBase`. If you have not set `searchBase` it will use `baseUrl` instead.
 
 ## Social
 
 #### social
 
-* Type: `Object`
+* Type: `Object || Boolean`
 
 * Default:
 
   ```js
-  social: {
-    enabled: false,
-    icons: [],
-    owner: null,
-  },
+  social: false
   ```
 
 * Example:
@@ -322,13 +379,18 @@ Note that if you want to search across many sites that operate under a single do
 
 #### carbonAds
 
-* Type: `Object`
+* Type: `Object || Boolean`
 
 * Default:
 
   ```js
+  carbonAds: false
+  ```
+
+* Example:
+
+  ```js
   carbonAds: {
-    enabled: true,
     placement: 'landodev',
     serve: 'CE7DCKJU',
   },
