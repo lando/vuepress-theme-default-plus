@@ -1,30 +1,39 @@
 <template>
   <div class="layout-wrapper">
-    <slot name="right-bar">
-      <div
-        v-if="!frontmatter.home && frontmatter.rightbar !== false"
-        class="right-bar"
+    <!-- <slot name="right-bar">
+      <Transition
+        name="fade-slide-y"
+        mode="out-in"
+        @before-enter="onBeforeEnter"
+        @before-leave="onBeforeLeave"
       >
-        <slot name="right-bar-top" />
-        <Sponsors v-if="sponsors.enabled" />
+        <div
+          v-if="!frontmatter.home && frontmatter.rightbar !== false"
+          class="right-bar"
+        >
+          <slot name="right-bar-top" />
+          <Sponsors v-if="sponsors.enabled" />
+          <SocialLinks
+            v-if="social.enabled"
+            :icons="social.icons"
+          />
+          <slot name="right-bar-bottom" />
+        </div>
+      </Transition>
+    </slot> -->
+
+    <ParentLayout>
+      <template #navbar-after>
         <SocialLinks
           v-if="social.enabled"
           :icons="social.icons"
         />
-        <slot name="right-bar-bottom" />
-      </div>
-    </slot>
-
-    <ParentLayout>
+      </template>
       <template #sidebar-top>
         <CarbonAds
           v-if="carbonAds.enabled"
           :placement="carbonAds.placement"
           :serve="carbonAds.serve"
-        />
-        <SocialLinks
-          v-if="social.enabled"
-          :icons="social.icons"
         />
         <SidebarHeader
           v-if="sidebarHeader.enabled"
@@ -80,14 +89,15 @@ import CarbonAds from '../components/CarbonAds.vue';
 import Guide from '../components/Guide.vue';
 import SidebarHeader from '../components/SidebarHeader.vue';
 import SocialLinks from '../components/SocialLinks.vue';
-import Sponsors from '../components/SponsorsList.vue';
+// import Sponsors from '../components/SponsorsList.vue';
 
 // Get theme data
 const frontmatter = usePageFrontmatter();
 const page = usePageData();
 const themeData = useThemeData();
 // Get the config from themedata
-const {carbonAds, sidebarHeader, social, sponsors} = themeData.value;
+// const {carbonAds, sidebarHeader, social, sponsors} = themeData.value;
+const {carbonAds, sidebarHeader, social} = themeData.value;
 
 // Helpers to manage transitions
 const scrollPromise = useScrollPromise();
