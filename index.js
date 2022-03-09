@@ -120,14 +120,15 @@ module.exports = (options, app) => {
     ]);
   }
 
+  // TOC
+  // SPONSORS
+
   // PAGE TYPE
     // GUIDE
     // ARTICLE?
-  // TOC
-  // SPONSORS
-  // FULL SCREEN MODE
   // JOB POSTINGS
   // TAGGING
+  // FULL SCREEN MODE
 
   return {
     name: '@lando/vuepress-theme-default-plus',

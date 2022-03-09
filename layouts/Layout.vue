@@ -1,27 +1,5 @@
 <template>
   <div class="layout-wrapper">
-    <!-- <slot name="right-bar">
-      <Transition
-        name="fade-slide-y"
-        mode="out-in"
-        @before-enter="onBeforeEnter"
-        @before-leave="onBeforeLeave"
-      >
-        <div
-          v-if="!frontmatter.home && frontmatter.rightbar !== false"
-          class="right-bar"
-        >
-          <slot name="right-bar-top" />
-          <Sponsors v-if="sponsors.enabled" />
-          <SocialLinks
-            v-if="social.enabled"
-            :icons="social.icons"
-          />
-          <slot name="right-bar-bottom" />
-        </div>
-      </Transition>
-    </slot> -->
-
     <ParentLayout>
       <template #navbar-after>
         <SocialLinks
@@ -51,21 +29,33 @@
           @before-enter="onBeforeEnter"
           @before-leave="onBeforeLeave"
         >
-          <Home v-if="frontmatter.home" />
-          <Guide
-            v-else-if="frontmatter.guide"
-            :key="page.path"
-          >
-            <template #top />
-            <template #bottom />
-          </Guide>
-          <Page
-            v-else
-            :key="page.path"
-          >
-            <template #top />
-            <template #bottom />
-          </Page>
+          <div class="page-wrapper-outer">
+            <div class="page-wrapper-inner">
+              <Home v-if="frontmatter.home" />
+              <Guide
+                v-else-if="frontmatter.guide"
+                :key="page.path"
+              >
+                <template #top />
+                <template #bottom />
+              </Guide>
+              <Page
+                v-else
+                :key="page.path"
+              >
+                <template #top />
+                <template #bottom />
+              </Page>
+              <slot name="right-bar">
+                <slot name="right-bar-top" />
+                <sidebar
+                  v-if="!frontmatter.home && frontmatter.rightbar !== false"
+                  class="rightbar"
+                />
+                <slot name="right-bar-bottom" />
+              </slot>
+            </div>
+          </div>
         </Transition>
       </template>
     </ParentLayout>
@@ -111,5 +101,48 @@ const onBeforeLeave = scrollPromise.pending;
 @import '../styles/main.scss';
 .navbar .site-name {
   font-family: var(--font-family-logo);
+}
+.page-wrapper-outer {
+  padding-top: var(--navbar-height);
+  padding-left: var(--sidebar-width);
+  display: flex;;
+}
+.page-wrapper-inner {
+  display: flex;
+  margin: auto;
+  max-width: var(--total-width);
+}
+.page {
+  width: var(--content-width);
+  padding-top: 0;
+  padding-left: 0;
+}
+.rightbar {
+  background-color: blue;
+  width: var(--rightbar-width);
+  padding-top: 0;
+  padding-left: 0;
+}
+
+@media (max-width: 1500px) {
+  .rightbar {
+    display: none;
+  }
+}
+@media (max-width: $MQNarrow) {
+  .page-wrapper-outer {
+    padding-left: var(--sidebar-width-mobile);
+  }
+  .page-wrapper-inner {
+    width: 100%;
+  }
+}
+@media (max-width: $MQMobile) {
+  .page-wrapper-outer {
+    padding-left: 0;
+  }
+  .page-wrapper-inner {
+    width: 100%;
+  }
 }
 </style>
