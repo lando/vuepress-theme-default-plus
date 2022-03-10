@@ -1,3 +1,6 @@
+const {fs, path} = require('@vuepress/utils');
+const yaml = require('js-yaml');
+
 module.exports = {
   lang: 'en-US',
   title: 'VuePress 2 Default Theme +',
@@ -22,9 +25,6 @@ module.exports = {
       canonicalUrl: 'https://vuepress-theme-default-plus.lando.dev/',
     },
 
-    // Use faux internal handling
-    baseUrl: 'https://lando.dev',
-
     // Use carbon ads
     carbonAds: {
       placement: 'landodev',
@@ -44,6 +44,13 @@ module.exports = {
     sidebarHeader: {
       auto: true,
       title: 'Current Version',
+    },
+
+    // Sponsors
+    sponsors: {
+      text: 'your logo?',
+      link: 'https://lando.dev/sponsor',
+      data: yaml.load(fs.readFileSync(path.resolve(__dirname, '..', '..', 'sponsors.yml'), 'utf8')),
     },
 
     // Use social media icons

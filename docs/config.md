@@ -346,33 +346,30 @@ Note that if you want to search across many sites that operate under a single do
 
 #### sponsors
 
-* Type: `Object`
+* Type: `Object || Boolean`
 
 * Default:
 
   ```js
-  sponsors: {
-    enabled: false,
-    data: [],
-  },
+  sponsors: false
   ```
 
 * Example:
 
   ```js
   sponsors: {
-    enabled: true,
-    data: yaml.load(fs.readFileSync(path.resolve(__dirname, '..', '..', 'sponsors.yml'), 'utf8')),
+    text: 'your logo?',
+    link: 'https://lando.dev/sponsor',
+    data: [
+      {
+        name: 'Pantheon',
+        id: 'pantheon',
+        url: 'https://pantheon.io/',
+        logo: 'https://www.drupal.org/files/Pantheon_logo_black_0.png',
+        type: 'full'
+      },
+    ],
   },
-  ```
-
-* Metadata format
-
-  ```yaml
-  - name: Lando
-    id: 1
-    url: https://lando.dev
-    logo: https://docs.lando.dev/images/logo-pink-small.png
   ```
 
 ## Carbon Ads
@@ -404,11 +401,31 @@ Note that the below are _in addition_ to the [options](https://v2.vuepress.vuejs
 
 #### rightbar
 
-* Type: `false` | `auto`
+* Type: `Boolean`
+
+* Default:
+
+  ```yaml
+  rightbar: true
+  ```
 
 * Details:
 
   Configure the visibility of the rightbar on a given page.
+
+* See [Disabling the rightbar](./disabling-rightbar.md)
+
+#### sponsors
+
+* Type: `Boolean`
+
+* Default:
+
+  ```yaml
+  sponsors: true
+  ```
+
+  Configure the visibility of the sponsors on a given page.
 
 ### Guides
 

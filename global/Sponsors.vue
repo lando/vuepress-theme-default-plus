@@ -10,15 +10,17 @@
         :key="index"
         :class="sponsor.classes"
       >
-        <a
-          :href="sponsor.url"
-          target="_blank"
-        >
-          <div class="sponsor-image"><img
-            :src="sponsor.logo"
-            :alt="sponsor.name"
-          ></div>
-        </a>
+        <div class="sponsor-inner">
+          <a
+            :href="sponsor.url"
+            target="_blank"
+          >
+            <div class="sponsor-image"><img
+              :src="sponsor.logo"
+              :alt="sponsor.name"
+            ></div>
+          </a>
+        </div>
       </div>
     </div>
 
@@ -75,20 +77,32 @@ const hasSponsors = computed(() => sponsors.data.length > 0);
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: space-between;
 }
 .sponsor {
   height: 50px;
-  background-color: var(--c-bg-lighter);
-  margin: 2px;
-  width: 30%;
+  width: 33%;
   display: flex;
-  justify-content: space-around;
   align-items: center;
+  justify-content: space-around;
+  margin-top: 2px;
+  cursor: pointer;;
+  .sponsor-inner {
+    background-color: var(--c-bg-lighter);
+    width: 100%;
+    height: 100%;
+    margin-left: 1px;
+    margin-right: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
   &.sponsor-half {
-    width: 48%;
+    width: 50%;
   }
   &.sponsor-full {
     width: 100%;
+    margin-bottom: 10px;
   }
   .sponsor-image {
     display: flex;
@@ -102,10 +116,20 @@ const hasSponsors = computed(() => sponsors.data.length > 0);
   }
 }
 .sponsor-footer {
+  margin-top: 10px;
   .sponsor {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    width: auto;
+    background-color: var(--c-bg-lighter);
+    width: 100%;
+    height: 50px;
+    margin-left: 1px;
+    margin-right: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
     .sponsor-link {
       color: var(--c-text-light);
       display: block;
@@ -117,8 +141,10 @@ const hasSponsors = computed(() => sponsors.data.length > 0);
   }
 }
 @media (max-width: 1500px) {
-  .sponsors {
-    display: none;
+  .rightbar {
+    .sponsors {
+      display: none;
+    }
   }
 }
 </style>
