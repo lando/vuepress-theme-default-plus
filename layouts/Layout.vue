@@ -23,17 +23,18 @@
       </template>
 
       <template #page>
-        <Transition
-          name="fade-slide-y"
-          mode="out-in"
-          @before-enter="onBeforeEnter"
-          @before-leave="onBeforeLeave"
-        >
-          <div class="page-wrapper-outer">
-            <div class="page-wrapper-inner">
-              <Home v-if="frontmatter.home" />
+        <div class="page-wrapper-outer">
+          <div class="page-wrapper-inner">
+            <Home v-if="frontmatter.home" />
+            <Transition
+              v-else
+              name="fade-slide-y"
+              mode="out-in"
+              @before-enter="onBeforeEnter"
+              @before-leave="onBeforeLeave"
+            >
               <Guide
-                v-else-if="frontmatter.guide"
+                v-if="frontmatter.guide"
                 :key="page.path"
               >
                 <template #top />
@@ -46,17 +47,20 @@
                 <template #top />
                 <template #bottom />
               </Page>
-              <slot name="right-bar">
-                <slot name="right-bar-top" />
-                <sidebar
-                  v-if="!frontmatter.home && frontmatter.rightbar !== false"
-                  class="rightbar"
-                />
-                <slot name="right-bar-bottom" />
-              </slot>
-            </div>
+            </Transition>
+
+            <slot name="right-bar">
+              <slot name="right-bar-top" />
+              <div
+                v-if="!frontmatter.home && frontmatter.rightbar !== false"
+                class="rightbar"
+              >
+                <h3>TOP</h3>
+              </div>
+              <slot name="right-bar-bottom" />
+            </slot>
           </div>
-        </Transition>
+        </div>
       </template>
     </ParentLayout>
   </div>
@@ -105,10 +109,11 @@ const onBeforeLeave = scrollPromise.pending;
 .page-wrapper-outer {
   padding-top: var(--navbar-height);
   padding-left: var(--sidebar-width);
-  display: flex;;
+  display: flex;
 }
 .page-wrapper-inner {
   display: flex;
+  align-items: flex-start;
   margin: auto;
   max-width: var(--total-width);
 }
@@ -118,10 +123,10 @@ const onBeforeLeave = scrollPromise.pending;
   padding-left: 0;
 }
 .rightbar {
-  background-color: blue;
   width: var(--rightbar-width);
-  padding-top: 0;
   padding-left: 0;
+  position: sticky;
+  top: var(--navbar-height);
 }
 
 @media (max-width: 1500px) {
@@ -134,6 +139,9 @@ const onBeforeLeave = scrollPromise.pending;
     padding-left: var(--sidebar-width-mobile);
   }
   .page-wrapper-inner {
+    width: 100%;
+  }
+  .page {
     width: 100%;
   }
 }
