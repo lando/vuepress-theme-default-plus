@@ -54,8 +54,5 @@ module.exports = {
   social: false,
   // Shows the special sponsors on the right, see sponsors below
   // Can be true|false|or a list of sponsor ids to show
-  sponsors: {
-    enabled: false,
-    data: [],
-  },
+  sponsors: false,
 };

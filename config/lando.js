@@ -345,8 +345,9 @@ module.exports = {
   // Shows the special sponsors on the right, see sponsors below
   // Can be true|false|or a list of sponsor ids to show
   sponsors: {
-    enabled: true,
-    data: yaml.load(fs.readFileSync(path.resolve(__dirname, '..', 'sponsors.yml'), 'utf8')),
+    text: 'your logo?',
+    link: 'https://lando.dev/sponsor',
+    data: yaml.load(fs.readFileSync(path.resolve(__dirname, '..', '..', 'sponsors.yml'), 'utf8')),
   },
   versionsPage: {
     auto: true,

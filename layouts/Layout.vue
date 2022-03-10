@@ -52,10 +52,10 @@
             <slot name="right-bar">
               <slot name="right-bar-top" />
               <div
-                v-if="!frontmatter.home && frontmatter.rightbar !== false"
+                v-if="(!frontmatter.home && frontmatter.rightbar !== false) && sponsors && frontmatter.sponsors !== false"
                 class="rightbar"
               >
-                <h3>TOP</h3>
+                <Sponsors />
               </div>
               <slot name="right-bar-bottom" />
             </slot>
@@ -82,7 +82,7 @@ import Page from '@theme/Page.vue';
 import CarbonAds from '../components/CarbonAds.vue';
 import Guide from '../components/Guide.vue';
 import SocialLinks from '../components/SocialLinks.vue';
-// import Sponsors from '../components/SponsorsList.vue';
+import Sponsors from '../global/Sponsors.vue';
 
 // Plugin components
 import SidebarHeader from '../plugins/plugin-sidebar-header/SidebarHeader.vue';
@@ -92,8 +92,7 @@ const frontmatter = usePageFrontmatter();
 const page = usePageData();
 const themeData = useThemeData();
 // Get the config from themedata
-// const {carbonAds, sidebarHeader, social, sponsors} = themeData.value;
-const {carbonAds, sidebarHeader, social} = themeData.value;
+const {carbonAds, sidebarHeader, social, sponsors} = themeData.value;
 
 // Helpers to manage transitions
 const scrollPromise = useScrollPromise();
@@ -127,6 +126,8 @@ const onBeforeLeave = scrollPromise.pending;
   padding-left: 0;
   position: sticky;
   top: var(--navbar-height);
+  margin-top: calc(0.5rem - var(--navbar-height));
+  padding-top: calc(1rem + var(--navbar-height));
 }
 
 @media (max-width: 1500px) {
