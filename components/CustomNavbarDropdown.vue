@@ -11,7 +11,7 @@
       @click="handleDropdown"
     >
       <span
-        v-if="treeHasAlert"
+        v-if="treeHasNewAlerts"
         class="alert-circle"
       />
       <span class="title">{{ item.text }}</span>
@@ -71,7 +71,7 @@
                       (open = false)
                   "
                 >
-                  <template #before>
+                  <template #after>
                     <Badge
                       v-if="hasAlert(grandchild) && isActiveAlert(grandchild.alert)"
                       v-bind="getAlert(grandchild.alert)"
@@ -129,11 +129,12 @@ const props = defineProps({
 const {item} = toRefs(props);
 
 const dropdownAriaLabel = computed(() => item.value.ariaLabel || item.value.text);
-const treeHasAlert = computed(() => {
+const treeHasNewAlerts = computed(() => {
   const items = flattenTree(item.value);
   const activeAlerts = items
     .filter(item => hasAlert(item))
     .map(item => getAlert(item.alert))
+    .filter(alert => alert.type === 'new')
     .filter(alert => alert && alert.expires > new Date().getTime());
 
   return activeAlerts.length > 0;
@@ -225,6 +226,9 @@ const getItemColumnsClass = item => {
     width: 400px;
     li {
       padding: 5px;
+      .badge {
+        margin-bottom: 2px;
+      }
     }
     &.navbar-dropdown-columns-full {
       li {

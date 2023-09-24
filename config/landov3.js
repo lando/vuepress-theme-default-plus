@@ -126,13 +126,21 @@ export default {
         },
         {
           text: 'Configuration',
-          columns: 3,
+          columns: 2,
           children: [
             {text: 'Global', link: 'https://docs.lando.dev/core/v3/index.html'},
             {text: 'Environment', link: 'https://docs.lando.dev/core/v3/env.html'},
             {text: 'Experimental', link: 'https://docs.lando.dev/core/v3/experimental.html'},
             {text: 'Networking', link: 'https://docs.lando.dev/core/v3/networking.html'},
-            {text: 'Orchestrator', link: 'https://docs.lando.dev/core/v3/orchestrator.html'},
+            {
+              text: 'Orchestrator',
+              link: 'https://docs.lando.dev/core/v3/orchestrator.html',
+              alert: {
+                expires: 1697299993000,
+                type: 'new',
+                text: 'NEW!',
+              },
+            },
             {text: 'Performance', link: 'https://docs.lando.dev/core/v3/performance.html'},
             {text: 'Plugins', link: 'https://docs.lando.dev/core/v3/plugins.html'},
             {text: 'Releases', link: 'https://docs.lando.dev/core/v3/releases.html'},
@@ -143,9 +151,17 @@ export default {
         },
         {
           text: 'Plugins',
-          columns: 3,
+          columns: 2,
           children: [
-            {text: 'Healthcheck', link: 'https://docs.lando.dev/core/v3/healthcheck.html'},
+            {
+              text: 'Healthcheck',
+              link: 'https://docs.lando.dev/core/v3/healthcheck.html',
+              alert: {
+                expires: 1697299993000,
+                type: 'new',
+                text: 'NEW!',
+              },
+            },
             {text: 'Scanner', link: 'https://docs.lando.dev/core/v3/scanner.html'},
           ],
         },
@@ -209,7 +225,7 @@ export default {
         },
         {
           text: 'General Purpose / DIY',
-          columns: 4,
+          columns: 2,
           children: [
             {text: 'Lando', link: 'https://docs.lando.dev/core/v3/lando-service.html'},
           ],
@@ -266,10 +282,26 @@ export default {
         },
         {
           text: 'General Purpose / DIY',
-          columns: 4,
+          columns: 2,
           children: [
-            {text: 'Lando', link: 'https://docs.lando.dev/core/v3/lando-service.html'},
-            {text: 'Compose', link: 'https://docs.lando.dev/compose'},
+            {
+              text: 'Lando',
+              link: 'https://docs.lando.dev/core/v3/lando-service.html',
+              alert: {
+                expires: 1697299993000,
+                type: 'new',
+                text: 'NEW!',
+              },
+            },
+            {
+              text: 'Compose',
+              link: 'https://docs.lando.dev/compose',
+              alert: {
+                expires: 1697299993000,
+                type: 'deprecated',
+                text: 'DEPRECATED!',
+              },
+            },
           ],
         },
       ],
