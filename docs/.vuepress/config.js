@@ -26,6 +26,11 @@ export default defineUserConfig({
     docsBranch: 'main',
     repo: 'lando/vuepress-theme-default-plus',
 
+    alert: {
+      content: 'VitePress won. This theme is now <strong>DEPRECATED</strong>. Switch to our <a target="blank" href="https://vitepress-theme-default-plus.lando.dev/">VitePress</a> theme.',
+      closeable: false,
+    },
+
     // THEME CONFIG
     // Use automatic metatag generation
     autometa: {
