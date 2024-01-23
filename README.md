@@ -1,5 +1,9 @@
 # VuePress 2 Default Theme +
 
+## DEPRECATED!
+
+**[VitePress](https://vitepress.dev) has gained considerable traction since we first started working on this and appears to be the winner vs VuePress2. As a consequence we have switched over to VitePress and will no longer be maintaining this theme. We recommend you do the same. If you are interested in similar-ish features for VitePress we have [a theme for that](https://vitepress-theme-default-plus.lando.dev/) as well.**
+
 This extends the [default VuePress 2 theme](https://v2.vuepress.vuejs.org/reference/default-theme/config.html#basic-config) with some extra power and features such as:
 
 * Easily distributable default config sets and shared navbar items
